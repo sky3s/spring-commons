@@ -3,6 +3,7 @@ package com.axial.spring.modules.commons.utils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -10,10 +11,11 @@ import java.util.Map;
 /**
  * Created on December 2022
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DataUtils {
 
     public static final String EMPTY = "";
+
+    private DataUtils() { }
 
 
     // ----------------------------------------------------
@@ -45,12 +47,29 @@ public class DataUtils {
         return !isEmpty(map);
     }
 
+    /**
+     * Returns an immutable empty map if the argument is <code>null</code>,
+     * or the argument itself otherwise.
+     *
+     * @param <K> the key type
+     * @param <V> the value type
+     * @param map the map, possibly <code>null</code>
+     * @return an empty map if the argument is <code>null</code>
+     */
+    public static <K,V> Map<K,V> emptyIfNull(final Map<K,V> map) {
+        return map == null ? Collections.<K,V>emptyMap() : map;
+    }
 
     // ----------------------------------------------------
     // ListUtils
 
-    public static boolean isEmpty(final List<?> target) {
+    public static boolean isEmpty(final Collection<?> target) {
         return target == null || target.isEmpty();
+    }
+
+
+    public static boolean isNotEmpty(Collection<?> coll) {
+        return !isEmpty(coll);
     }
 
     /**
@@ -78,24 +97,6 @@ public class DataUtils {
     public static <T> List<T> defaultIfNull(final List<T> list, final List<T> defaultList) {
         return list == null ? defaultList : list;
     }
-
-    /**
-     * Returns an immutable empty map if the argument is <code>null</code>,
-     * or the argument itself otherwise.
-     *
-     * @param <K> the key type
-     * @param <V> the value type
-     * @param map the map, possibly <code>null</code>
-     * @return an empty map if the argument is <code>null</code>
-     */
-    public static <K,V> Map<K,V> emptyIfNull(final Map<K,V> map) {
-        return map == null ? Collections.<K,V>emptyMap() : map;
-    }
-
-    public static <K, V> Map<K, V> emptyIfNull(final Map<K, V> map, final Map<K, V> defaultMap) {
-        return map == null ? defaultMap : map;
-    }
-
 
     // ----------------------------------------------------
     // StringUtils
